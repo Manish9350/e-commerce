@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - ShopEasy</title>
+    <meta name="description" content="Browse our wide selection of products. Filter by category, price, brand and more to find exactly what you're looking for.">
+    <meta name="keywords" content="shop, products, electronics, books, fashion, home goods, online shopping">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <div id="header-placeholder"></div>
+
+    <main class="py-4">
+        <div class="container">
+            <!-- Breadcrumbs -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Shop</li>
+                </ol>
+            </nav>
+
+            <div class="row">
+                <!-- Filter Sidebar -->
+                <div class="col-lg-3">
+                    <div class="filter-sidebar">
+                        <h5 class="filter-title">Filters</h5>
+                        
+                        <!-- Categories -->
+                        <div class="filter-section">
+                            <h6 class="filter-title">Categories</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" id="all-categories" value="" checked>
+                                <label class="form-check-label" for="all-categories">
+                                    All Categories
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" id="electronics" value="Electronics">
+                                <label class="form-check-label" for="electronics">
+                                    Electronics
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" id="books" value="Books">
+                                <label class="form-check-label" for="books">
+                                    Books
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" id="fashion" value="Fashion">
+                                <label class="form-check-label" for="fashion">
+                                    Fashion
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="category" id="home" value="Home">
+                                <label class="form-check-label" for="home">
+                                    Home & Garden
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Price Range -->
+                        <div class="filter-section">
+                            <h6 class="filter-title">Price Range</h6>
+                            <input type="range" class="form-range price-range" min="0" max="200" value="200" id="priceRange">
+                            <div class="d-flex justify-content-between">
+                                <span>$0</span>
+                                <span id="priceValue">$200</span>
+                            </div>
+                        </div>
+
+                        <!-- Brands -->
+                        <div class="filter-section">
+                            <h6 class="filter-title">Brands</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="brand" id="soundtech" value="SoundTech">
+                                <label class="form-check-label" for="soundtech">
+                                    SoundTech
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="brand" id="techguard" value="TechGuard">
+                                <label class="form-check-label" for="techguard">
+                                    TechGuard
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="brand" id="styleco" value="StyleCo">
+                                <label class="form-check-label" for="styleco">
+                                    StyleCo
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="brand" id="homebrew" value="HomeBrew">
+                                <label class="form-check-label" for="homebrew">
+                                    HomeBrew
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary w-100" onclick="clearFilters()">Clear All Filters</button>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-lg-9">
+                    <!-- Sort and Results Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h4 id="product-count">24 products found</h4>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <label for="sortBy" class="form-label mb-0">Sort by:</label>
+                            <select class="form-select" id="sortBy" style="width: auto;">
+                                <option value="newest">Newest</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="rating">Customer Rating</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div class="row" id="products-grid">
+                        <!-- Products will be loaded here by JavaScript -->
+                    </div>
+
+                    <!-- Load More Button -->
+                    <div class="text-center mt-5">
+                        <button class="btn btn-outline-primary" onclick="loadMoreProducts()">Load More Products</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="assets/js/app.js"></script>
+    
+    <script>
+        // Load header and footer components
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header
+            fetch('components/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+                    // Re-initialize any event listeners after loading header
+                    setTimeout(initializeApp, 100);
+                });
+            
+            // Load footer
+            fetch('components/footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footer-placeholder').innerHTML = data;
+                });
+        });
+
+        // Price range slider update
+        document.addEventListener('DOMContentLoaded', function() {
+            const priceRange = document.getElementById('priceRange');
+            const priceValue = document.getElementById('priceValue');
+            
+            if (priceRange && priceValue) {
+                priceRange.addEventListener('input', function() {
+                    priceValue.textContent = '$' + this.value;
+                    renderShopPage();
+                });
+            }
+
+            // Category filter event listeners
+            document.querySelectorAll('input[name="category"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    renderShopPage();
+                });
+            });
+        });
+
+        function clearFilters() {
+            // Clear all filters
+            document.querySelectorAll('input[name="category"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.getElementById('all-categories').checked = true;
+            
+            document.getElementById('priceRange').value = 200;
+            document.getElementById('priceValue').textContent = '$200';
+            
+            document.querySelectorAll('input[name="brand"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            document.getElementById('sortBy').value = 'newest';
+            
+            renderShopPage();
+        }
+
+        function loadMoreProducts() {
+            // This would typically load more products from a server
+            // For demo purposes, we'll just show a message
+            showNotification('All products are currently displayed', 'info');
+        }
+    </script>
+</body>
+</html>

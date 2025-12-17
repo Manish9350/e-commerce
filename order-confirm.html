@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - ShopEasy</title>
+    <meta name="description" content="Your order has been confirmed! Thank you for your purchase. Track your order and download your invoice.">
+    <meta name="keywords" content="order confirmation, thank you, order tracking, invoice, purchase complete">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <div id="header-placeholder"></div>
+
+    <main class="py-4">
+        <div class="container">
+            <!-- Order Details -->
+            <div id="order-details">
+                <!-- Order details will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="assets/js/app.js"></script>
+    
+    <script>
+        // Load header and footer components
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header
+            fetch('components/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+                    // Re-initialize any event listeners after loading header
+                    setTimeout(initializeApp, 100);
+                });
+            
+            // Load footer
+            fetch('components/footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footer-placeholder').innerHTML = data;
+                });
+        });
+
+        // Enhanced download invoice function
+        function downloadInvoice(orderId) {
+            // Create a simple invoice using JavaScript
+            const orders = JSON.parse(localStorage.getItem('ecom_orders') || '[]');
+            const order = orders.find(o => o.orderId === orderId);
+            
+            if (!order) {
+                showNotification('Order not found', 'error');
+                return;
+            }
+
+            // Create invoice content
+            let invoiceContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Invoice - ${order.orderId}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        .header { text-align: center; margin-bottom: 30px; }
+                        .invoice-details { margin-bottom: 20px; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        th { background-color: #f2f2f2; }
+                        .total { font-weight: bold; }
+                        .footer { margin-top: 30px; text-align: center; color: #666; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>ShopEasy</h1>
+                        <h2>Invoice</h2>
+                    </div>
+                    
+                    <div class="invoice-details">
+                        <p><strong>Invoice Number:</strong> ${order.orderId}</p>
+                        <p><strong>Order Date:</strong> ${new Date(order.date).toLocaleDateString()}</p>
+                        <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
+                    </div>
+                    
+                    <h3>Billing Address</h3>
+                    <address>
+                        ${order.shippingAddress.firstName} ${order.shippingAddress.lastName}<br>
+                        ${order.shippingAddress.address}<br>
+                        ${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.zipCode}
+                    </address>
+                    
+                    <h3>Order Items</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${order.items.map(item => `
+                                <tr>
+                                    <td>${item.product.title}</td>
+                                    <td>${item.qty}</td>
+                                    <td>$${item.product.price}</td>
+                                    <td>$${(item.product.price * item.qty).toFixed(2)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                    
+                    <div style="text-align: right;">
+                        <p>Subtotal: $${order.subtotal.toFixed(2)}</p>
+                        <p>Shipping: ${order.shipping === 0 ? 'FREE' : '$' + order.shipping.toFixed(2)}</p>
+                        <p>Tax: $${order.tax.toFixed(2)}</p>
+                        <p class="total">Total: $${order.total.toFixed(2)}</p>
+                    </div>
+                    
+                    <div class="footer">
+                        <p>Thank you for your business!</p>
+                        <p>ShopEasy - Your trusted shopping partner</p>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            // Create and download the invoice
+            const blob = new Blob([invoiceContent], { type: 'text/html' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `invoice-${order.orderId}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            showNotification('Invoice downloaded successfully!', 'success');
+        }
+    </script>
+</body>
+</html>

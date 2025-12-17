@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - ShopEasy</title>
+    <meta name="description" content="Complete your purchase with secure payment. Choose from multiple payment methods including credit cards, PayPal, and more.">
+    <meta name="keywords" content="payment, checkout, credit card, PayPal, secure payment, online payment">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <div id="header-placeholder"></div>
+
+    <main class="py-4">
+        <div class="container">
+            <!-- Breadcrumbs -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="cart.html">Cart</a></li>
+                    <li class="breadcrumb-item"><a href="checkout.html">Checkout</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Payment</li>
+                </ol>
+            </nav>
+
+            <div class="row">
+                <!-- Payment Methods -->
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Select Payment Method</h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Credit/Debit Card -->
+                            <div class="payment-method" data-method="card">
+                                <div class="d-flex align-items-center">
+                                    <input class="form-check-input me-3" type="radio" name="paymentMethod" value="card" id="card">
+                                    <label class="form-check-label flex-grow-1" for="card">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-credit-card fa-2x me-3 text-primary"></i>
+                                            <div>
+                                                <h6 class="mb-0">Credit/Debit Card</h6>
+                                                <small class="text-muted">Visa, Mastercard, American Express</small>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- PayPal -->
+                            <div class="payment-method" data-method="paypal">
+                                <div class="d-flex align-items-center">
+                                    <input class="form-check-input me-3" type="radio" name="paymentMethod" value="paypal" id="paypal">
+                                    <label class="form-check-label flex-grow-1" for="paypal">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fab fa-paypal fa-2x me-3 text-primary"></i>
+                                            <div>
+                                                <h6 class="mb-0">PayPal</h6>
+                                                <small class="text-muted">Pay with your PayPal account</small>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- UPI/NetBanking -->
+                            <div class="payment-method" data-method="upi">
+                                <div class="d-flex align-items-center">
+                                    <input class="form-check-input me-3" type="radio" name="paymentMethod" value="upi" id="upi">
+                                    <label class="form-check-label flex-grow-1" for="upi">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-mobile-alt fa-2x me-3 text-primary"></i>
+                                            <div>
+                                                <h6 class="mb-0">UPI / NetBanking</h6>
+                                                <small class="text-muted">Pay using UPI or Internet Banking</small>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Digital Wallet -->
+                            <div class="payment-method" data-method="wallet">
+                                <div class="d-flex align-items-center">
+                                    <input class="form-check-input me-3" type="radio" name="paymentMethod" value="wallet" id="wallet">
+                                    <label class="form-check-label flex-grow-1" for="wallet">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-wallet fa-2x me-3 text-primary"></i>
+                                            <div>
+                                                <h6 class="mb-0">Digital Wallet</h6>
+                                                <small class="text-muted">Apple Pay, Google Pay, Samsung Pay</small>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Cash on Delivery -->
+                            <div class="payment-method" data-method="cod">
+                                <div class="d-flex align-items-center">
+                                    <input class="form-check-input me-3" type="radio" name="paymentMethod" value="cod" id="cod">
+                                    <label class="form-check-label flex-grow-1" for="cod">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-money-bill-wave fa-2x me-3 text-primary"></i>
+                                            <div>
+                                                <h6 class="mb-0">Cash on Delivery</h6>
+                                                <small class="text-muted">Pay when your order arrives</small>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Card Form (Hidden by default) -->
+                            <div id="cardForm" style="display: none;" class="mt-4">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Card Details</h6>
+                                        <div class="mb-3">
+                                            <label for="cardNumber" class="form-label">Card Number</label>
+                                            <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="expiryDate" class="form-label">Expiry Date</label>
+                                                <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" maxlength="5">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="cvv" class="form-label">CVV</label>
+                                                <input type="text" class="form-control" id="cvv" placeholder="123" maxlength="4">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="cardName" class="form-label">Name on Card</label>
+                                            <input type="text" class="form-control" id="cardName" placeholder="John Doe">
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="saveCard">
+                                            <label class="form-check-label" for="saveCard">
+                                                Save card for future purchases
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Notice -->
+                    <div class="alert alert-info mt-4">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        <strong>Secure Payment:</strong> Your payment information is encrypted and processed securely. We never store your full card details.
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='checkout.html'">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Checkout
+                        </button>
+                        <button type="button" class="btn btn-primary btn-lg" onclick="processPayment()">
+                            Complete Payment<i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Order Summary</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="payment-summary">
+                                <!-- Order summary will be loaded here by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Features -->
+                    <div class="card mt-4">
+                        <div class="card-body text-center">
+                            <h6 class="card-title">Secure Payment</h6>
+                            <div class="d-flex justify-content-center gap-3 mb-3">
+                                <i class="fas fa-lock fa-2x text-success"></i>
+                                <i class="fas fa-shield-alt fa-2x text-success"></i>
+                                <i class="fas fa-certificate fa-2x text-success"></i>
+                            </div>
+                            <p class="small text-muted mb-0">
+                                Protected by 256-bit SSL encryption
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="assets/js/app.js"></script>
+    
+    <script>
+        // Load header and footer components
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header
+            fetch('components/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+                    // Re-initialize any event listeners after loading header
+                    setTimeout(initializeApp, 100);
+                });
+            
+            // Load footer
+            fetch('components/footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footer-placeholder').innerHTML = data;
+                });
+        });
+
+        // Card number formatting
+        document.addEventListener('DOMContentLoaded', function() {
+            const cardNumber = document.getElementById('cardNumber');
+            if (cardNumber) {
+                cardNumber.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+                    let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                    if (formattedValue.length >= 19) {
+                        formattedValue = formattedValue.substr(0, 19);
+                    }
+                    e.target.value = formattedValue;
+                });
+            }
+
+            // Expiry date formatting
+            const expiryDate = document.getElementById('expiryDate');
+            if (expiryDate) {
+                expiryDate.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length >= 2) {
+                        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                    }
+                    e.target.value = value;
+                });
+            }
+
+            // CVV formatting
+            const cvv = document.getElementById('cvv');
+            if (cvv) {
+                cvv.addEventListener('input', function(e) {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                });
+            }
+        });
+
+        // Update payment summary
+        function updatePaymentSummary() {
+            const summaryContainer = document.getElementById('payment-summary');
+            if (!summaryContainer || currentCart.length === 0) {
+                if (summaryContainer) {
+                    summaryContainer.innerHTML = '<p class="text-muted">No items in cart</p>';
+                }
+                return;
+            }
+
+            const cartItems = currentCart.map(cartItem => {
+                const product = products.find(p => p.id === cartItem.id);
+                return { ...cartItem, product };
+            }).filter(item => item.product);
+
+            const subtotal = cartItems.reduce((sum, item) => sum + (item.product.price * item.qty), 0);
+            const shipping = subtotal >= 50 ? 0 : 5;
+            const tax = subtotal * 0.05;
+            const total = subtotal + shipping + tax;
+
+            summaryContainer.innerHTML = `
+                ${cartItems.map(item => `
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="${item.product.images[0]}" class="me-3" style="width: 50px; height: 50px; object-fit: contain;" alt="${item.product.title}">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0">${item.product.title}</h6>
+                            <small class="text-muted">Qty: ${item.qty}</small>
+                        </div>
+                        <span class="fw-bold">$${(item.product.price * item.qty).toFixed(2)}</span>
+                    </div>
+                `).join('')}
+                
+                <hr>
+                
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Subtotal:</span>
+                    <span>$${subtotal.toFixed(2)}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Shipping:</span>
+                    <span>${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Tax:</span>
+                    <span>$${tax.toFixed(2)}</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <strong>Total:</strong>
+                    <strong>$${total.toFixed(2)}</strong>
+                </div>
+            `;
+        }
+
+        // Override initializePayment to include summary update
+        const originalInitializePayment = initializePayment;
+        initializePayment = function() {
+            originalInitializePayment();
+            updatePaymentSummary();
+        };
+    </script>
+</body>
+</html>
